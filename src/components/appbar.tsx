@@ -10,7 +10,6 @@ function Appbar() {
             </Link>
             <div className="flex gap-4">
                 <Link to="/" className="hover:text-brand-600 font-semibold transition-all">HOME</Link>
-                <Link to="/" className="hover:text-brand-600 font-semibold transition-all">QUIZ</Link>
             </div>
         </div>
     </div>
