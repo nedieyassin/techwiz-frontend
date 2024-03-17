@@ -27,7 +27,4 @@ Techwiz Quiz is a web application designed for developers to test their knowledg
 ## Contributing
 
 Contributions are welcome! Please open issues for feature requests or bug reports. Pull requests are encouraged for enhancements and fixes.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+ 
