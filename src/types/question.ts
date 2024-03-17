@@ -11,3 +11,9 @@ export interface IQuestion {
     tags: string[]
     selected_option?: string
 }
+
+export interface IQuestionAnswer {
+    question: string
+    answer: string
+    passed: boolean
+}

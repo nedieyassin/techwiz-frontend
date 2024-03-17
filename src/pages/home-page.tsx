@@ -2,6 +2,7 @@ import {categories} from "@/lib/data.ts";
 import Appbar from "@/components/appbar.tsx";
 import {RiTerminalLine} from "react-icons/ri";
 import TopicCard from "@/components/topic-card.tsx";
+import Footer from "@/components/footer.tsx";
 
 
 function HomePage() {
@@ -36,6 +37,7 @@ function HomePage() {
                 </div>
             </div>
         </div>
+        <Footer/>
     </div>
 }
 

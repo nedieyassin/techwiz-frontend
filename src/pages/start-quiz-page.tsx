@@ -12,6 +12,7 @@ import pb from "@/lib/pocketbase.ts";
 import useStore from "@/state";
 import {IQuestion} from "@/types/question.ts";
 import {Loader} from "lucide-react";
+import Footer from "@/components/footer.tsx";
 
 
 const difficulties = ['Easy', 'Medium', 'Hard'] as const;
@@ -128,6 +129,7 @@ function StartQuizPage() {
                 </div>
             </div>
         </div>
+        <Footer/>
     </div>
 }
 

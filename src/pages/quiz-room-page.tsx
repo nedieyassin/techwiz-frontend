@@ -1,12 +1,21 @@
 import {RiTerminalLine} from "react-icons/ri";
 import {AnimatePresence, motion} from "framer-motion";
-import {buttonVariants} from "@/components/ui/button.tsx";
+import {Button, buttonVariants} from "@/components/ui/button.tsx";
 import Markdown from "react-markdown";
 import {useState} from "react";
 import {LuChevronLeft, LuChevronRight} from "react-icons/lu";
 import {wrap} from "popmotion";
 import {cn} from "@/lib/utils.ts";
 import useStore from "@/state";
+import {
+    Dialog, DialogClose,
+    DialogContent,
+    DialogDescription, DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger
+} from "@/components/ui/dialog.tsx";
+import {useNavigate} from "react-router-dom";
 
 const variants = {
     enter: (direction: number) => {
@@ -31,8 +40,8 @@ const variants = {
 
 
 function QuizRoomPage() {
-    const {currentTest, setQuestionAnswer} = useStore((state) => state);
-
+    const {currentTest, setCurrentTest, setQuestionAnswer} = useStore((state) => state);
+    const navigate = useNavigate();
 
     const [[page, direction], setPage] = useState([0, 0]);
 
@@ -57,13 +66,64 @@ function QuizRoomPage() {
                     <span className="font-semibold">{currentTest.topic}</span>
                 </div>
                 <div className="flex gap-2 select-none">
-                    <motion.button
-                        className={cn(buttonVariants({variant: 'ghost'}), 'px-4 rounded-full')}>
-                        Cancel
-                    </motion.button>
-                    <motion.button className={cn(buttonVariants(), 'bg-brand-600 hover:bg-brand-700 px-4 rounded-full')}
-                                   whileTap={{scale: 0.95}}>SUBMIT
-                    </motion.button>
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <motion.button
+                                className={cn(buttonVariants({variant: 'ghost'}), 'px-4 rounded-full')}>
+                                Cancel
+                            </motion.button>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogHeader>
+                                <DialogTitle>Are you sure you want to cancel?</DialogTitle>
+                                <DialogDescription>
+                                    Cancelling will reset your progress and cannot be undone. Are you sure you want to
+                                    cancel?
+                                </DialogDescription>
+                            </DialogHeader>
+                            <DialogFooter>
+                                <DialogClose asChild>
+                                    <Button type="button" variant="secondary" className="px-4 rounded-full">
+                                        No
+                                    </Button>
+                                </DialogClose>
+                                <Button onClick={() => {
+                                    setCurrentTest({topic: '', difficulty: '', questions: []});
+                                    navigate(-1)
+                                }} type="submit" className="bg-brand-600 hover:bg-brand-700 px-4 rounded-full">Yes,
+                                    cancel</Button>
+                            </DialogFooter>
+                        </DialogContent>
+                    </Dialog>
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <motion.button
+                                className={cn(buttonVariants(), 'bg-brand-600 hover:bg-brand-700 px-4 rounded-full')}
+                                whileTap={{scale: 0.95}}>SUBMIT
+                            </motion.button>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogHeader>
+                                <DialogTitle>Are you sure you want to submit?</DialogTitle>
+                                <DialogDescription>
+                                    Any unanswered questions will be failed. You can't
+                                    undo this action.
+                                </DialogDescription>
+                            </DialogHeader>
+                            <DialogFooter>
+                                <DialogClose asChild>
+                                    <Button type="button" variant="secondary" className="px-4 rounded-full">
+                                        No
+                                    </Button>
+                                </DialogClose>
+                                <Button onClick={() => {
+                                    navigate("/quiz-results")
+                                }} type="submit" className="bg-brand-600 hover:bg-brand-700 px-4 rounded-full">Yes,
+                                    submit</Button>
+                            </DialogFooter>
+                        </DialogContent>
+                    </Dialog>
+
                 </div>
             </div>
         </div>
@@ -72,7 +132,7 @@ function QuizRoomPage() {
             <div className="max-w-screen-lg  mx-auto px-3">
                 {question && <div className="p-4">
                     <div>
-                        <div className="flex items-center justify-between pb-4">
+                        <div className="flex items-center justify-between pb-8">
                             <div>
                                 <div className="font-bold text-lg"><span
                                     className="text-brand-600">{index + 1}</span> / {currentTest.questions.length}
